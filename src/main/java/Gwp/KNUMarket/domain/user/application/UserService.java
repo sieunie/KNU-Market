@@ -9,4 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
 public interface UserService {
     ResponseEntity<UserGetRes> get(Authentication authentication);
     ResponseEntity<HttpStatus> patch(String name, MultipartFile image, Authentication authentication);
+    ResponseEntity<Boolean> getExist(String name);
 }

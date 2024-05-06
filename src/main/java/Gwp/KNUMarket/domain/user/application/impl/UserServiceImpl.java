@@ -80,6 +80,11 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<Boolean> getExist(String name) {
+        return new ResponseEntity<>(userRepository.existsByName(name), HttpStatus.OK);
+    }
+
     private String saveImage(MultipartFile image) {
         String originalName = image.getOriginalFilename();
         String newName = UUID.randomUUID() + "." + StringUtils.getFilenameExtension(originalName);
