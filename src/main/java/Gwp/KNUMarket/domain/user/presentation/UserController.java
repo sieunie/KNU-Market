@@ -40,4 +40,13 @@ public class UserController {
     public ResponseEntity<HttpStatus> patch(@RequestParam(required = false) String name, @RequestPart(required = false) MultipartFile image, @Parameter(hidden = true) Authentication authentication) {
         return userService.patch(name, image, authentication);
     }
+
+    @GetMapping("/exist")
+    @Operation(summary = "닉네임 중복 확인 API", description = "중복이면 true 반환")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<Boolean> getExist(@RequestParam String name) {
+        return userService.getExist(name);
+    }
 }
