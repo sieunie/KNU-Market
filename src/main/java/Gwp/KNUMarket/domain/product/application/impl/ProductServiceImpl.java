@@ -2,6 +2,7 @@ package Gwp.KNUMarket.domain.product.application.impl;
 
 import Gwp.KNUMarket.domain.product.application.ProductService;
 import Gwp.KNUMarket.domain.product.data.dto.req.ProductPostReq;
+import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetListRes;
 import Gwp.KNUMarket.global.data.entity.Product;
 import Gwp.KNUMarket.global.data.entity.User;
 import Gwp.KNUMarket.global.repository.ProductRepository;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -57,6 +59,11 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<ProductGetListRes>> getList() {
+        return new ResponseEntity<>(productRepository.findAllList(), HttpStatus.OK);
     }
 
     private String saveImage(MultipartFile image) {

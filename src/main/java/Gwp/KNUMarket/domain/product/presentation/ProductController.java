@@ -2,6 +2,7 @@ package Gwp.KNUMarket.domain.product.presentation;
 
 import Gwp.KNUMarket.domain.product.application.ProductService;
 import Gwp.KNUMarket.domain.product.data.dto.req.ProductPostReq;
+import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetListRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,6 +18,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @Tag(name = "상품")
 @RequestMapping("/api/product")
@@ -31,5 +34,14 @@ public class ProductController {
     })
     public ResponseEntity<HttpStatus> post(@ParameterObject @ModelAttribute ProductPostReq productPostReq, @RequestPart(required = false) MultipartFile image, @Parameter(hidden = true) Authentication authentication) {
         return productService.post(productPostReq, image, authentication);
+    }
+
+    @GetMapping("/list")
+    @Operation(summary = "상품 리스트 조회 API", description = "모든 상품 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<List<ProductGetListRes>> getList() {
+        return productService.getList();
     }
 }
