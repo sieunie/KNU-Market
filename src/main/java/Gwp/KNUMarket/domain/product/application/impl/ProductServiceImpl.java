@@ -66,6 +66,11 @@ public class ProductServiceImpl implements ProductService {
         return new ResponseEntity<>(productRepository.findAllList(), HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<List<ProductGetListRes>> getSearch(String keyword) {
+        return new ResponseEntity<>(productRepository.findListByKeyword(keyword), HttpStatus.OK);
+    }
+
     private String saveImage(MultipartFile image) {
         String originalName = image.getOriginalFilename();
         String newName = UUID.randomUUID() + "." + StringUtils.getFilenameExtension(originalName);

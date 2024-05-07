@@ -25,4 +25,15 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .orderBy(product.createdAt.desc())
                 .fetch();
     }
+
+    @Override
+    public List<ProductGetListRes> findListByKeyword(String keyword) {
+        return jpaQueryFactory
+                .select(Projections.constructor(ProductGetListRes.class,
+                        product.title, product.price, product.user.name, product.imagePath, product.createdAt))
+                .from(product)
+                .where(product.title.contains(keyword))
+                .orderBy(product.createdAt.desc())
+                .fetch();
+    }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ProductRepositoryCustom {
     List<ProductGetListRes> findAllList();
+    List<ProductGetListRes> findListByKeyword(String keyword);
 }

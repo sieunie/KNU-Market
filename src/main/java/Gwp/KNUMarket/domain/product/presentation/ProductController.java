@@ -44,4 +44,13 @@ public class ProductController {
     public ResponseEntity<List<ProductGetListRes>> getList() {
         return productService.getList();
     }
+
+    @GetMapping("/search")
+    @Operation(summary = "상품 리스트 키워드 검색 API", description = "키워드 포함 하는 상품 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<List<ProductGetListRes>> getSearch(@RequestParam String keyword) {
+        return productService.getSearch(keyword);
+    }
 }
