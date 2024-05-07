@@ -35,9 +35,12 @@ public class Product {
 
     private String description;
 
+    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Builder.Default
     private Boolean sold = Boolean.FALSE;
 
+    @Builder.Default
     private Boolean deleted = Boolean.FALSE;
 }
