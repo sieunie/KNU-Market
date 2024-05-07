@@ -22,6 +22,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(Projections.constructor(ProductGetListRes.class,
                         product.title, product.price, product.user.name, product.imagePath, product.createdAt))
                 .from(product)
+                .orderBy(product.createdAt.desc())
                 .fetch();
     }
 }
