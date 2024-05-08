@@ -20,7 +20,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public List<ProductGetListRes> findAllList() {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetListRes.class,
-                        product.title, product.price, product.user.name, product.imagePath, product.createdAt))
+                        product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt))
                 .from(product)
                 .orderBy(product.createdAt.desc())
                 .fetch();
@@ -30,7 +30,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public List<ProductGetListRes> findListByKeyword(String keyword) {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetListRes.class,
-                        product.title, product.price, product.user.name, product.imagePath, product.createdAt))
+                        product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt))
                 .from(product)
                 .where(product.title.contains(keyword))
                 .orderBy(product.createdAt.desc())

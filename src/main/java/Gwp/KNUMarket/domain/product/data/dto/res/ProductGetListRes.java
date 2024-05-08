@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class ProductGetListRes {
+    private Integer id;
     private String title;
     private Integer price;
     private String userName;
