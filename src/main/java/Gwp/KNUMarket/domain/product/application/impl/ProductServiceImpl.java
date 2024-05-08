@@ -1,6 +1,7 @@
 package Gwp.KNUMarket.domain.product.application.impl;
 
 import Gwp.KNUMarket.domain.product.application.ProductService;
+import Gwp.KNUMarket.domain.product.data.dto.req.ProductPatchReq;
 import Gwp.KNUMarket.domain.product.data.dto.req.ProductPostReq;
 import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetListRes;
 import Gwp.KNUMarket.global.data.entity.Product;
@@ -16,11 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.NoPermissionException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,6 +72,43 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseEntity<List<ProductGetListRes>> getSearch(String keyword) {
         return new ResponseEntity<>(productRepository.findListByKeyword(keyword), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<HttpStatus> patch(ProductPatchReq productPatchReq, MultipartFile image, Authentication authentication) throws NoPermissionException {
+
+        Optional<User> optionalUser = userRepository.findById(Integer.parseInt(authentication.getName()));
+
+        if (optionalUser.isEmpty())
+            throw new NullPointerException();
+
+        Optional<Product> optionalProduct = productRepository.findById(productPatchReq.getId());
+
+        if (optionalProduct.isEmpty())
+            throw new NoSuchElementException();
+
+        Product product = optionalProduct.get();
+
+        if (product.getUser() != optionalUser.get())
+            throw new NoPermissionException();
+
+        if (productPatchReq.getTitle() != null)
+            product.setTitle(productPatchReq.getTitle());
+
+        if (productPatchReq.getPrice() != null)
+            product.setPrice(productPatchReq.getPrice());
+
+        if (productPatchReq.getDescription() != null)
+            product.setDescription(productPatchReq.getDescription());
+
+        if (image != null) {
+            String imageName = saveImage(image);
+            product.setImagePath(sitePath + imageName);
+        }
+
+        productRepository.save(product);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private String saveImage(MultipartFile image) {

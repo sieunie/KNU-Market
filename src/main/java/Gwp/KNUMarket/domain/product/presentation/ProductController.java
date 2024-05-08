@@ -1,6 +1,7 @@
 package Gwp.KNUMarket.domain.product.presentation;
 
 import Gwp.KNUMarket.domain.product.application.ProductService;
+import Gwp.KNUMarket.domain.product.data.dto.req.ProductPatchReq;
 import Gwp.KNUMarket.domain.product.data.dto.req.ProductPostReq;
 import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetListRes;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 
 @RestController
@@ -52,5 +54,14 @@ public class ProductController {
     })
     public ResponseEntity<List<ProductGetListRes>> getSearch(@RequestParam String keyword) {
         return productService.getSearch(keyword);
+    }
+
+    @PatchMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "상품 정보 수정 API", description = "수정할 데이터만 입력")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<HttpStatus> patch(@ParameterObject @ModelAttribute ProductPatchReq productPatchReq, @RequestPart(required = false) MultipartFile image, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
+        return productService.patch(productPatchReq, image, authentication);
     }
 }
