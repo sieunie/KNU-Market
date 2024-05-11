@@ -1,6 +1,7 @@
 package Gwp.KNUMarket.global.repository.impl;
 
 import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetListRes;
+import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetRes;
 import Gwp.KNUMarket.global.repository.custom.ProductRepositoryCustom;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -39,5 +40,15 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .offset(page * 8)
                 .limit(8)
                 .fetch();
+    }
+
+    @Override
+    public ProductGetRes findProductById(Integer id) {
+        return jpaQueryFactory
+                .select(Projections.constructor(ProductGetRes.class,
+                        product.title, product.price, product.description, product.imagePath, product.user.name, product.user.imagePath, product.user.starScore, product.createdAt))
+                .from(product)
+                .where(product.id.eq(id))
+                .fetchOne();
     }
 }

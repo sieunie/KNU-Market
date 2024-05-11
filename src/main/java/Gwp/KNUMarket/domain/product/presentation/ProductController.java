@@ -4,6 +4,7 @@ import Gwp.KNUMarket.domain.product.application.ProductService;
 import Gwp.KNUMarket.domain.product.data.dto.req.ProductPatchReq;
 import Gwp.KNUMarket.domain.product.data.dto.req.ProductPostReq;
 import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetListRes;
+import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -64,5 +65,14 @@ public class ProductController {
     })
     public ResponseEntity<HttpStatus> patch(@ParameterObject @ModelAttribute ProductPatchReq productPatchReq, @RequestPart(required = false) MultipartFile image, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
         return productService.patch(productPatchReq, image, authentication);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "상품 상세 정보 조회 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<ProductGetRes> get(@PathVariable("id") Integer id) {
+        return productService.get(id);
     }
 }

@@ -4,6 +4,7 @@ import Gwp.KNUMarket.domain.product.application.ProductService;
 import Gwp.KNUMarket.domain.product.data.dto.req.ProductPatchReq;
 import Gwp.KNUMarket.domain.product.data.dto.req.ProductPostReq;
 import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetListRes;
+import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetRes;
 import Gwp.KNUMarket.global.data.entity.Product;
 import Gwp.KNUMarket.global.data.entity.User;
 import Gwp.KNUMarket.global.repository.ProductRepository;
@@ -109,6 +110,16 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ProductGetRes> get(Integer id) {
+        ProductGetRes productGetRes = productRepository.findProductById(id);
+
+        if (productGetRes == null)
+            throw new NoSuchElementException();
+
+        return new ResponseEntity<>(productGetRes, HttpStatus.OK);
     }
 
     private String saveImage(MultipartFile image) {
