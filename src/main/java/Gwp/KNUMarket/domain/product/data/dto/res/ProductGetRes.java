@@ -7,11 +7,13 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class ProductGetListRes {
-    private Integer id;
+public class ProductGetRes {
     private String title;
     private Integer price;
-    private String userName;
+    private String description;
     private String imagePath;
+    private String userName;
+    private String userImagePath;
+    private Integer starScore;
     private LocalDateTime createdAt;
 }

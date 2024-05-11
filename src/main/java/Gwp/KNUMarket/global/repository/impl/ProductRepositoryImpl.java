@@ -1,6 +1,7 @@
 package Gwp.KNUMarket.global.repository.impl;
 
 import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetListRes;
+import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetRes;
 import Gwp.KNUMarket.global.repository.custom.ProductRepositoryCustom;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,23 +18,37 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ProductGetListRes> findAllList() {
+    public List<ProductGetListRes> findAllList(Integer page) {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetListRes.class,
-                        product.title, product.price, product.user.name, product.imagePath, product.createdAt))
+                        product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt))
                 .from(product)
                 .orderBy(product.createdAt.desc())
+                .offset(page * 8)
+                .limit(8)
                 .fetch();
     }
 
     @Override
-    public List<ProductGetListRes> findListByKeyword(String keyword) {
+    public List<ProductGetListRes> findListByKeyword(Integer page, String keyword) {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetListRes.class,
-                        product.title, product.price, product.user.name, product.imagePath, product.createdAt))
+                        product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt))
                 .from(product)
                 .where(product.title.contains(keyword))
                 .orderBy(product.createdAt.desc())
+                .offset(page * 8)
+                .limit(8)
                 .fetch();
+    }
+
+    @Override
+    public ProductGetRes findProductById(Integer id) {
+        return jpaQueryFactory
+                .select(Projections.constructor(ProductGetRes.class,
+                        product.title, product.price, product.description, product.imagePath, product.user.name, product.user.imagePath, product.user.starScore, product.createdAt))
+                .from(product)
+                .where(product.id.eq(id))
+                .fetchOne();
     }
 }
