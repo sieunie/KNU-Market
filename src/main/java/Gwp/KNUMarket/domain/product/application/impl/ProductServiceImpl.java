@@ -65,13 +65,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ResponseEntity<List<ProductGetListRes>> getList() {
-        return new ResponseEntity<>(productRepository.findAllList(), HttpStatus.OK);
+    public ResponseEntity<List<ProductGetListRes>> getList(Integer page) {
+        return new ResponseEntity<>(productRepository.findAllList(page), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<ProductGetListRes>> getSearch(String keyword) {
-        return new ResponseEntity<>(productRepository.findListByKeyword(keyword), HttpStatus.OK);
+    public ResponseEntity<List<ProductGetListRes>> getSearch(Integer page, String keyword) {
+        return new ResponseEntity<>(productRepository.findListByKeyword(page, keyword), HttpStatus.OK);
     }
 
     @Override

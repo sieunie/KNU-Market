@@ -17,23 +17,27 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ProductGetListRes> findAllList() {
+    public List<ProductGetListRes> findAllList(Integer page) {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetListRes.class,
                         product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt))
                 .from(product)
                 .orderBy(product.createdAt.desc())
+                .offset(page * 8)
+                .limit(8)
                 .fetch();
     }
 
     @Override
-    public List<ProductGetListRes> findListByKeyword(String keyword) {
+    public List<ProductGetListRes> findListByKeyword(Integer page, String keyword) {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetListRes.class,
                         product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt))
                 .from(product)
                 .where(product.title.contains(keyword))
                 .orderBy(product.createdAt.desc())
+                .offset(page * 8)
+                .limit(8)
                 .fetch();
     }
 }

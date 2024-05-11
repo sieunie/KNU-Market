@@ -6,6 +6,7 @@ import Gwp.KNUMarket.domain.product.data.dto.req.ProductPostReq;
 import Gwp.KNUMarket.domain.product.data.dto.res.ProductGetListRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -38,22 +39,22 @@ public class ProductController {
         return productService.post(productPostReq, image, authentication);
     }
 
-    @GetMapping("/list")
-    @Operation(summary = "상품 리스트 조회 API", description = "모든 상품 리스트 조회")
+    @GetMapping("/list/{page}")
+    @Operation(summary = "상품 리스트 페이지 조회 API", description = "모든 상품 리스트 조회")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공", content = @Content())
     })
-    public ResponseEntity<List<ProductGetListRes>> getList() {
-        return productService.getList();
+    public ResponseEntity<List<ProductGetListRes>> getList(@PathVariable("page") @Parameter(description = "페이지 번호 (0부터 시작)") Integer page) {
+        return productService.getList(page);
     }
 
-    @GetMapping("/search")
-    @Operation(summary = "상품 리스트 키워드 검색 API", description = "키워드 포함 하는 상품 리스트 조회")
+    @GetMapping("/search/{page}")
+    @Operation(summary = "상품 리스트 키워드 페이지 검색 API", description = "키워드 포함 하는 상품 리스트 조회")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공", content = @Content())
     })
-    public ResponseEntity<List<ProductGetListRes>> getSearch(@RequestParam String keyword) {
-        return productService.getSearch(keyword);
+    public ResponseEntity<List<ProductGetListRes>> getSearch(@PathVariable("page") @Parameter(description = "페이지 번호 (0부터 시작)") Integer page, @RequestParam String keyword) {
+        return productService.getSearch(page, keyword);
     }
 
     @PatchMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

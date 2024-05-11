@@ -14,7 +14,7 @@ import java.util.List;
 public interface ProductService {
 
     ResponseEntity<HttpStatus> post(ProductPostReq productPostReq, MultipartFile image, Authentication authentication);
-    ResponseEntity<List<ProductGetListRes>> getList();
-    ResponseEntity<List<ProductGetListRes>> getSearch(String keyword);
+    ResponseEntity<List<ProductGetListRes>> getList(Integer page);
+    ResponseEntity<List<ProductGetListRes>> getSearch(Integer page, String keyword);
     ResponseEntity<HttpStatus> patch(ProductPatchReq productPatchReq, MultipartFile image, Authentication authentication) throws NoPermissionException;
 }
