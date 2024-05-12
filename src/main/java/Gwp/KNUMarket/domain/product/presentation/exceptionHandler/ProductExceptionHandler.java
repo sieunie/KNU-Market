@@ -14,7 +14,7 @@ public class ProductExceptionHandler {
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<String> ProductNullPointerExceptionHandler() {
-        return new ResponseEntity<>("존재하지 않는 사용자입니다.", HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("존재하지 않는 사용자입니다.", HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(NoSuchElementException.class)
@@ -24,6 +24,6 @@ public class ProductExceptionHandler {
 
     @ExceptionHandler(NoPermissionException.class)
     public ResponseEntity<String> ProductNoPermissionExceptionHandler() {
-        return new ResponseEntity<>("수정 권한이 없습니다.", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>("수정 권한이 없습니다.", HttpStatus.BAD_REQUEST);
     }
 }

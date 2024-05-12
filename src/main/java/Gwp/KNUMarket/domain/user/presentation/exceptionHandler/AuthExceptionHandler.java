@@ -13,7 +13,7 @@ public class AuthExceptionHandler {
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<String> AuthNullPointerExceptionHandler() {
-        return new ResponseEntity<>("존재하지 않는 사용자입니다.", HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>("존재하지 않는 사용자입니다.", HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(IOException.class)
