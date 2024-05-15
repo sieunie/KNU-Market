@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -17,6 +18,7 @@ import java.time.ZoneId;
 @NoArgsConstructor
 @Builder
 @SQLDelete(sql = "UPDATE product SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Product {
 
     @Id

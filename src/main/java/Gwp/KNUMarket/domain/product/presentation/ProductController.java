@@ -75,4 +75,13 @@ public class ProductController {
     public ResponseEntity<ProductGetRes> get(@PathVariable("id") Integer id) {
         return productService.get(id);
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "상품 삭제 API", description = "상품 등록자만 삭제 가능")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException{
+        return productService.delete(id, authentication);
+    }
 }

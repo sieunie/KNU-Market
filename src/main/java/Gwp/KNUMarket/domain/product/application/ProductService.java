@@ -19,4 +19,5 @@ public interface ProductService {
     ResponseEntity<List<ProductGetListRes>> getSearch(Integer page, String keyword);
     ResponseEntity<HttpStatus> patch(ProductPatchReq productPatchReq, MultipartFile image, Authentication authentication) throws NoPermissionException;
     ResponseEntity<ProductGetRes> get(Integer id);
+    ResponseEntity<HttpStatus> delete(Integer id, Authentication authentication) throws NoPermissionException;
 }
