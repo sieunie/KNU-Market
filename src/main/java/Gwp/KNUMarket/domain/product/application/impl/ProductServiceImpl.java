@@ -122,6 +122,28 @@ public class ProductServiceImpl implements ProductService {
         return new ResponseEntity<>(productGetRes, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<HttpStatus> delete(Integer id, Authentication authentication) throws NoPermissionException{
+        Optional<User> optionalUser = userRepository.findById(Integer.parseInt(authentication.getName()));
+
+        if (optionalUser.isEmpty())
+            throw new NullPointerException();
+
+        Optional<Product> optionalProduct = productRepository.findById(id);
+
+        if (optionalProduct.isEmpty())
+            throw new NoSuchElementException();
+
+        Product product = optionalProduct.get();
+
+        if (product.getUser() != optionalUser.get())
+            throw new NoPermissionException();
+
+        productRepository.delete(product);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     private String saveImage(MultipartFile image) {
         String originalName = image.getOriginalFilename();
         String newName = UUID.randomUUID() + "." + StringUtils.getFilenameExtension(originalName);
