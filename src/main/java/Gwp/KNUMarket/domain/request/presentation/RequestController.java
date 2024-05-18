@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 
 @RestController
@@ -39,5 +40,14 @@ public class RequestController {
     })
     public ResponseEntity<List<RequestGetRes>> get(@PathVariable("productId") Integer productId) {
         return requestService.get(productId);
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "구매 요청 수락 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<HttpStatus> patch(@PathVariable("id") Integer id, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
+        return requestService.patch(id, authentication);
     }
 }

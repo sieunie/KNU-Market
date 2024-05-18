@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -59,5 +60,31 @@ public class RequestServiceImpl implements RequestService {
             throw new NoSuchElementException();
 
         return new ResponseEntity<>(requestRepository.findRequestByProductId(productId), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<HttpStatus> patch(Integer id, Authentication authentication) throws NoPermissionException {
+        Optional<User> optionalUser = userRepository.findById(Integer.parseInt(authentication.getName()));
+
+        if (optionalUser.isEmpty())
+            throw new NullPointerException();
+
+        Optional<Request> optionalRequest = requestRepository.findById(id);
+
+        if (optionalRequest.isEmpty())
+            throw new NoSuchElementException();
+
+        Request request = optionalRequest.get();
+
+        if (request.getUser() != optionalUser.get())
+            throw new NoPermissionException();
+
+        request.setAccepted(Boolean.TRUE);
+        requestRepository.save(request);
+
+        request.getProduct().setSold(Boolean.TRUE);
+        productRepository.save(request.getProduct());
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
