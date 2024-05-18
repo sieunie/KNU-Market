@@ -1,6 +1,7 @@
 package Gwp.KNUMarket.domain.request.application.impl;
 
 import Gwp.KNUMarket.domain.request.application.RequestService;
+import Gwp.KNUMarket.domain.request.data.dto.res.RequestGetRes;
 import Gwp.KNUMarket.global.data.entity.Product;
 import Gwp.KNUMarket.global.data.entity.Request;
 import Gwp.KNUMarket.global.data.entity.User;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -43,5 +45,15 @@ public class RequestServiceImpl implements RequestService {
         requestRepository.save(request);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<RequestGetRes>> get(Integer productId) {
+        Optional<Product> optionalProduct = productRepository.findById(productId);
+
+        if (optionalProduct.isEmpty())
+            throw new NoSuchElementException();
+
+        return new ResponseEntity<>(requestRepository.findRequestByProductId(productId), HttpStatus.OK);
     }
 }

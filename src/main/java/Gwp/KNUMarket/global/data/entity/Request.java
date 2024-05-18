@@ -5,6 +5,9 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -29,4 +32,7 @@ public class Request {
 
     @Builder.Default
     Boolean deleted = Boolean.FALSE;
+
+    @Builder.Default
+    LocalDateTime createdAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 }

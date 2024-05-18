@@ -1,6 +1,7 @@
 package Gwp.KNUMarket.domain.request.presentation;
 
 import Gwp.KNUMarket.domain.request.application.RequestService;
+import Gwp.KNUMarket.domain.request.data.dto.res.RequestGetRes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,10 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Tag(name = "구매 요청")
@@ -30,5 +30,14 @@ public class RequestController {
     })
     public ResponseEntity<HttpStatus> post(@PathVariable("productId") Integer productId, @Parameter(hidden = true) Authentication authentication) {
         return requestService.post(productId, authentication);
+    }
+
+    @GetMapping("/{productId}")
+    @Operation(summary = "구매 요청 조회 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<List<RequestGetRes>> get(@PathVariable("productId") Integer productId) {
+        return requestService.get(productId);
     }
 }
