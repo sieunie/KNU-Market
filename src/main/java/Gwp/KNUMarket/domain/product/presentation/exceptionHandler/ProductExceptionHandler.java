@@ -24,6 +24,6 @@ public class ProductExceptionHandler {
 
     @ExceptionHandler(NoPermissionException.class)
     public ResponseEntity<String> ProductNoPermissionExceptionHandler() {
-        return new ResponseEntity<>("수정 권한이 없습니다.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("수정 또는 삭제 권한이 없습니다.", HttpStatus.BAD_REQUEST);
     }
 }
