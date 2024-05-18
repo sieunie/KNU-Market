@@ -8,6 +8,7 @@ import Gwp.KNUMarket.global.data.entity.User;
 import Gwp.KNUMarket.global.repository.ProductRepository;
 import Gwp.KNUMarket.global.repository.RequestRepository;
 import Gwp.KNUMarket.global.repository.UserRepository;
+import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,9 @@ public class RequestServiceImpl implements RequestService {
 
         if (optionalProduct.isEmpty())
             throw new NoSuchElementException();
+
+        if (requestRepository.existsByUserAndProduct(optionalUser.get(), optionalProduct.get()))
+            throw new DuplicateRequestException();
 
         Request request = Request.builder()
                 .user(optionalUser.get())

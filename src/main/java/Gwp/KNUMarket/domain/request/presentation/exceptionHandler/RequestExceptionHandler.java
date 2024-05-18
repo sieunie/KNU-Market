@@ -1,6 +1,7 @@
 package Gwp.KNUMarket.domain.request.presentation.exceptionHandler;
 
 import Gwp.KNUMarket.domain.request.presentation.RequestController;
+import com.sun.jdi.request.DuplicateRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +25,11 @@ public class RequestExceptionHandler {
     @ExceptionHandler(NoPermissionException.class)
     public ResponseEntity<String> RequestNoPermissionExceptionHandler() {
         return new ResponseEntity<>("수정 또는 삭제 권한이 없습니다.", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DuplicateRequestException.class)
+    public ResponseEntity<String> RequestDuplicateRequestExceptionHandler() {
+        return new ResponseEntity<>("중복된 요청입니다.", HttpStatus.CONFLICT);
     }
 }
 
