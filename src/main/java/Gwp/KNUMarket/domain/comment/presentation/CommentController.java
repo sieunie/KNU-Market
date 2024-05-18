@@ -51,4 +51,13 @@ public class CommentController {
     public ResponseEntity<HttpStatus> patch(@PathVariable("id") Integer id, @RequestParam String content, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
         return commentService.patch(id, content, authentication);
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "댓글 삭제 API", description = "댓글 작성자만 삭제 가능")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
+        return commentService.delete(id, authentication);
+    }
 }

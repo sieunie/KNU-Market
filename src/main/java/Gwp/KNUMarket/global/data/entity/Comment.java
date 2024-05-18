@@ -17,7 +17,7 @@ import java.time.ZoneId;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@SQLDelete(sql = "UPDATE product SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE comment SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = false")
 public class Comment {
 

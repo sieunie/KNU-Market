@@ -14,4 +14,5 @@ public interface CommentService {
     ResponseEntity<HttpStatus> post(CommentPostReq commentPostReq, Authentication authentication);
     ResponseEntity<List<CommentGetRes>> get(Integer productId);
     ResponseEntity<HttpStatus> patch(Integer id, String content, Authentication authentication) throws NoPermissionException;
+    ResponseEntity<HttpStatus> delete(Integer id, Authentication authentication) throws NoPermissionException;
 }

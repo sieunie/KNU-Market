@@ -79,4 +79,26 @@ public class CommentServiceImpl implements CommentService {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<HttpStatus> delete(Integer id, Authentication authentication) throws NoPermissionException {
+        Optional<User> optionalUser = userRepository.findById(Integer.parseInt(authentication.getName()));
+
+        if (optionalUser.isEmpty())
+            throw new NullPointerException();
+
+        Optional<Comment> optionalComment = commentRepository.findById(id);
+
+        if (optionalComment.isEmpty())
+            throw new NoSuchElementException();
+
+        Comment comment = optionalComment.get();
+
+        if (comment.getUser() != optionalUser.get())
+            throw new NoPermissionException();
+
+        commentRepository.delete(comment);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

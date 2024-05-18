@@ -24,6 +24,6 @@ public class CommentExceptionHandler {
 
     @ExceptionHandler(NoPermissionException.class)
     public ResponseEntity<String> CommentNoPermissionExceptionHandler() {
-        return new ResponseEntity<>("수정 권한이 없습니다.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("수정 또는 삭제 권한이 없습니다.", HttpStatus.BAD_REQUEST);
     }
 }
