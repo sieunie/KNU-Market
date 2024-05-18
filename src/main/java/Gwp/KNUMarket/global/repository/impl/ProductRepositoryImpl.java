@@ -21,7 +21,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public List<ProductGetListRes> findAllList(Integer page) {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetListRes.class,
-                        product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt))
+                        product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt, product.sold))
                 .from(product)
                 .orderBy(product.createdAt.desc())
                 .offset(page * 8)
@@ -33,7 +33,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public List<ProductGetListRes> findListByKeyword(Integer page, String keyword) {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetListRes.class,
-                        product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt))
+                        product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt, product.sold))
                 .from(product)
                 .where(product.title.contains(keyword))
                 .orderBy(product.createdAt.desc())

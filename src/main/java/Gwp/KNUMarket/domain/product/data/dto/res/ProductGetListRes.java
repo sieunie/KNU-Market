@@ -14,4 +14,5 @@ public class ProductGetListRes {
     private String userName;
     private String imagePath;
     private LocalDateTime createdAt;
+    private Boolean sold;
 }
