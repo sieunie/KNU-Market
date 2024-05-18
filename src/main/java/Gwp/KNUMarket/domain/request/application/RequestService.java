@@ -12,4 +12,5 @@ public interface RequestService {
     ResponseEntity<HttpStatus> post(Integer productId, Authentication authentication);
     ResponseEntity<List<RequestGetRes>> get(Integer productId);
     ResponseEntity<HttpStatus> patch(Integer id, Authentication authentication) throws NoPermissionException;
+    ResponseEntity<HttpStatus> delete(Integer id, Authentication authentication) throws NoPermissionException;
 }

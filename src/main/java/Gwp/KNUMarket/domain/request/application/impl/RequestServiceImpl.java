@@ -87,4 +87,26 @@ public class RequestServiceImpl implements RequestService {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<HttpStatus> delete(Integer id, Authentication authentication) throws NoPermissionException {
+        Optional<User> optionalUser = userRepository.findById(Integer.parseInt(authentication.getName()));
+
+        if (optionalUser.isEmpty())
+            throw new NullPointerException();
+
+        Optional<Request> optionalRequest = requestRepository.findById(id);
+
+        if (optionalRequest.isEmpty())
+            throw new NoSuchElementException();
+
+        Request request = optionalRequest.get();
+
+        if (request.getUser() != optionalUser.get())
+            throw new NoPermissionException();
+
+        requestRepository.delete(request);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

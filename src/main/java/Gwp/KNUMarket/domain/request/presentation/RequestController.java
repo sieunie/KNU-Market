@@ -50,4 +50,13 @@ public class RequestController {
     public ResponseEntity<HttpStatus> patch(@PathVariable("id") Integer id, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
         return requestService.patch(id, authentication);
     }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "구매 요청 삭제 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
+        return requestService.delete(id, authentication);
+    }
 }
