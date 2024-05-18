@@ -2,6 +2,7 @@ package Gwp.KNUMarket.domain.comment.application.impl;
 
 import Gwp.KNUMarket.domain.comment.application.CommentService;
 import Gwp.KNUMarket.domain.comment.data.dto.req.CommentPostReq;
+import Gwp.KNUMarket.domain.comment.data.dto.res.CommentGetRes;
 import Gwp.KNUMarket.global.data.entity.Comment;
 import Gwp.KNUMarket.global.data.entity.Product;
 import Gwp.KNUMarket.global.data.entity.User;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -46,5 +48,10 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<CommentGetRes>> get(Integer productId) {
+        return new ResponseEntity<>(commentRepository.findCommentsByProductId(productId), HttpStatus.OK);
     }
 }
