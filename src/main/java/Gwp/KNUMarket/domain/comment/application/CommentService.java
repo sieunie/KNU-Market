@@ -6,10 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 
 public interface CommentService {
 
     ResponseEntity<HttpStatus> post(CommentPostReq commentPostReq, Authentication authentication);
     ResponseEntity<List<CommentGetRes>> get(Integer productId);
+    ResponseEntity<HttpStatus> patch(Integer id, String content, Authentication authentication) throws NoPermissionException;
 }

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -53,5 +54,29 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public ResponseEntity<List<CommentGetRes>> get(Integer productId) {
         return new ResponseEntity<>(commentRepository.findCommentsByProductId(productId), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<HttpStatus> patch(Integer id, String content, Authentication authentication) throws NoPermissionException {
+        Optional<User> optionalUser = userRepository.findById(Integer.parseInt(authentication.getName()));
+
+        if (optionalUser.isEmpty())
+            throw new NullPointerException();
+
+        Optional<Comment> optionalComment = commentRepository.findById(id);
+
+        if (optionalComment.isEmpty())
+            throw new NoSuchElementException();
+
+        Comment comment = optionalComment.get();
+
+        if (comment.getUser() != optionalUser.get())
+            throw new NoPermissionException();
+
+        comment.setContent(content);
+
+        commentRepository.save(comment);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

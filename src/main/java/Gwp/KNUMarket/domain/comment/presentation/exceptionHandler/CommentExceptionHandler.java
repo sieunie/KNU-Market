@@ -19,7 +19,7 @@ public class CommentExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> CommentNoSuchElementExceptionHandler() {
-        return new ResponseEntity<>("존재하지 않는 상품입니다.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("존재하지 않는 컨텐츠입니다.", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(NoPermissionException.class)

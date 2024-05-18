@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 
 @RestController
@@ -40,5 +41,14 @@ public class CommentController {
     })
     public ResponseEntity<List<CommentGetRes>> get(@PathVariable("productId") Integer productId) {
         return commentService.get(productId);
+    }
+
+    @PatchMapping("/{id}")
+    @Operation(summary = "댓글 수정 API", description = "댓글 작성자만 수정 가능")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<HttpStatus> patch(@PathVariable("id") Integer id, @RequestParam String content, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
+        return commentService.patch(id, content, authentication);
     }
 }
