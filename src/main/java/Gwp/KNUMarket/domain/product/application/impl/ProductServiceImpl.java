@@ -144,6 +144,16 @@ public class ProductServiceImpl implements ProductService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<List<ProductGetListRes>> getMine(Integer page, Authentication authentication) {
+        Optional<User> optionalUser = userRepository.findById(Integer.parseInt(authentication.getName()));
+
+        if (optionalUser.isEmpty())
+            throw new NullPointerException();
+
+        return new ResponseEntity<>(productRepository.findListByUser(page, optionalUser.get()), HttpStatus.OK);
+    }
+
     private String saveImage(MultipartFile image) {
         String originalName = image.getOriginalFilename();
         String newName = UUID.randomUUID() + "." + StringUtils.getFilenameExtension(originalName);

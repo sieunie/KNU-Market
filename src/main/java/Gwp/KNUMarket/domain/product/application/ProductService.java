@@ -20,4 +20,5 @@ public interface ProductService {
     ResponseEntity<HttpStatus> patch(ProductPatchReq productPatchReq, MultipartFile image, Authentication authentication) throws NoPermissionException;
     ResponseEntity<ProductGetRes> get(Integer id);
     ResponseEntity<HttpStatus> delete(Integer id, Authentication authentication) throws NoPermissionException;
+    ResponseEntity<List<ProductGetListRes>> getMine(Integer page, Authentication authentication);
 }

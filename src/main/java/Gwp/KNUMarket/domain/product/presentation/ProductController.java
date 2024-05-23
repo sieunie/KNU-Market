@@ -84,4 +84,13 @@ public class ProductController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException{
         return productService.delete(id, authentication);
     }
+
+    @GetMapping("/mine/{page}")
+    @Operation(summary = "내가 등록한 상품 조회 API")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content())
+    })
+    public ResponseEntity<List<ProductGetListRes>> getMine(@PathVariable("page") @Parameter(description = "페이지 번호 (0부터 시작)") Integer page, @Parameter(hidden = true) Authentication authentication) {
+        return productService.getMine(page, authentication);
+    }
 }
