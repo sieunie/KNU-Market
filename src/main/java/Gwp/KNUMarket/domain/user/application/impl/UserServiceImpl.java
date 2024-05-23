@@ -1,11 +1,8 @@
 package Gwp.KNUMarket.domain.user.application.impl;
 
 import Gwp.KNUMarket.domain.user.application.UserService;
-import Gwp.KNUMarket.domain.user.data.dto.res.UserGetProductElementRes;
 import Gwp.KNUMarket.domain.user.data.dto.res.UserGetRes;
-import Gwp.KNUMarket.global.data.entity.Product;
 import Gwp.KNUMarket.global.data.entity.User;
-import Gwp.KNUMarket.global.repository.ProductRepository;
 import Gwp.KNUMarket.global.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
