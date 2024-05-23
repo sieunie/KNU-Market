@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     private String sitePath;
 
     private final UserRepository userRepository;
-    private final ProductRepository productRepository;
+
     @Override
     public ResponseEntity<UserGetRes> get(Authentication authentication) {
 
@@ -45,15 +45,7 @@ public class UserServiceImpl implements UserService {
 
         User user = optionalUser.get();
 
-        List<UserGetProductElementRes> userGetProductElementResList = new ArrayList<>();
-
-        for (Product product : productRepository.findAllByUser(user)) {
-            userGetProductElementResList.add(new UserGetProductElementRes(
-                    product.getId(), product.getTitle(), product.getImagePath(), product.getPrice(), product.getCreatedAt()
-            ));
-        }
-
-        return new ResponseEntity<>(new UserGetRes(user.getName(), user.getImagePath(), user.getStarScore(), userGetProductElementResList), HttpStatus.OK);
+        return new ResponseEntity<>(new UserGetRes(user.getName(), user.getImagePath(), user.getStarScore()), HttpStatus.OK);
     }
 
     @Override

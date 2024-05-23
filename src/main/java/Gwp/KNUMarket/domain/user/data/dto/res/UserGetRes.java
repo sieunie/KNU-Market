@@ -11,5 +11,4 @@ public class UserGetRes {
     private String name;
     private String imagePath;
     private Integer starScore;
-    private List<UserGetProductElementRes> products;
 }
