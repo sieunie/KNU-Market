@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
 
         String accessToken = jwtTokenProvider.createAccessToken(optionalUser.get());
 
-        return new ResponseEntity<>(new AuthLoginRes(refreshToken, accessToken), HttpStatus.OK);
+        return new ResponseEntity<>(new AuthLoginRes(token, accessToken), HttpStatus.OK);
     }
 
     private ResponseEntity<AuthLoginRes> register(Integer kakaoId) {
