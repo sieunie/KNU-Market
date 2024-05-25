@@ -20,7 +20,7 @@ public class RequestRepositoryImpl implements RequestRepositoryCustom {
     public List<RequestGetRes> findRequestByProductId(Integer productId) {
         return jpaQueryFactory
                 .select(Projections.constructor(RequestGetRes.class,
-                        request.user.name, request.user.imagePath, request.createdAt))
+                        request.id, request.user.name, request.user.imagePath, request.createdAt))
                 .from(request)
                 .where(request.product.id.eq(productId))
                 .orderBy(request.createdAt.asc())
