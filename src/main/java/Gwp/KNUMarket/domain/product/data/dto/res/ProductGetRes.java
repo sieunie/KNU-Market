@@ -12,6 +12,7 @@ public class ProductGetRes {
     private Integer price;
     private String description;
     private String imagePath;
+    private Integer userId;
     private String userName;
     private String userImagePath;
     private Integer starScore;

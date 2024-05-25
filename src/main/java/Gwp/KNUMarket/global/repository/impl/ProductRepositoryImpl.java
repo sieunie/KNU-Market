@@ -36,7 +36,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(Projections.constructor(ProductGetListRes.class,
                         product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt, product.sold))
                 .from(product)
-                .where(product.title.contains(keyword))
+                .where(product.title.contains(keyword)
+                        .or(product.description.contains(keyword)))
                 .orderBy(product.createdAt.desc())
                 .offset(page * 8)
                 .limit(8)
@@ -47,7 +48,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public ProductGetRes findProductById(Integer id) {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetRes.class,
-                        product.title, product.price, product.description, product.imagePath, product.user.name, product.user.imagePath, product.user.starScore, product.createdAt))
+                        product.title, product.price, product.description, product.imagePath, product.user.id, product.user.name, product.user.imagePath, product.user.starScore, product.createdAt))
                 .from(product)
                 .where(product.id.eq(id))
                 .fetchOne();
