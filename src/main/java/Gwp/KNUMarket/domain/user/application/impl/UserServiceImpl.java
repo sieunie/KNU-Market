@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
         User user = optionalUser.get();
 
-        return new ResponseEntity<>(new UserGetRes(user.getName(), user.getImagePath(), user.getStarScore()), HttpStatus.OK);
+        return new ResponseEntity<>(new UserGetRes(user.getId(), user.getName(), user.getImagePath(), user.getStarScore()), HttpStatus.OK);
     }
 
     @Override
