@@ -47,7 +47,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     public ProductGetRes findProductById(Integer id) {
         return jpaQueryFactory
                 .select(Projections.constructor(ProductGetRes.class,
-                        product.title, product.price, product.description, product.imagePath, product.user.name, product.user.imagePath, product.user.starScore, product.createdAt))
+                        product.title, product.price, product.description, product.imagePath, product.user.id, product.user.name, product.user.imagePath, product.user.starScore, product.createdAt))
                 .from(product)
                 .where(product.id.eq(id))
                 .fetchOne();
