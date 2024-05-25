@@ -14,8 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.naming.NoPermissionException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -53,5 +55,25 @@ public class AlarmServiceImpl implements AlarmService {
         }
 
         return new ResponseEntity<>(alarmGetResList, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<HttpStatus> delete(Integer id, Authentication authentication) throws NoPermissionException {
+        Optional<User> optionalUser = userRepository.findById(Integer.parseInt(authentication.getName()));
+
+        if (optionalUser.isEmpty())
+            throw new NullPointerException();
+
+        Optional<Alarm> optionalAlarm = alarmRepository.findById(id);
+
+        if (optionalAlarm.isEmpty())
+            throw new NoSuchElementException();
+
+        if (optionalUser.get() != optionalAlarm.get().getUser())
+            throw new NoPermissionException();
+
+        alarmRepository.delete(optionalAlarm.get());
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
