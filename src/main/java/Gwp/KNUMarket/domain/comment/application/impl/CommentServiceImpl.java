@@ -1,11 +1,13 @@
 package Gwp.KNUMarket.domain.comment.application.impl;
 
+import Gwp.KNUMarket.domain.alarm.application.AlarmService;
 import Gwp.KNUMarket.domain.comment.application.CommentService;
 import Gwp.KNUMarket.domain.comment.data.dto.req.CommentPostReq;
 import Gwp.KNUMarket.domain.comment.data.dto.res.CommentGetRes;
 import Gwp.KNUMarket.global.data.entity.Comment;
 import Gwp.KNUMarket.global.data.entity.Product;
 import Gwp.KNUMarket.global.data.entity.User;
+import Gwp.KNUMarket.global.data.enums.AlarmType;
 import Gwp.KNUMarket.global.repository.CommentRepository;
 import Gwp.KNUMarket.global.repository.ProductRepository;
 import Gwp.KNUMarket.global.repository.UserRepository;
@@ -23,6 +25,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
+    private final AlarmService alarmService;
+
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final CommentRepository commentRepository;
@@ -39,14 +43,18 @@ public class CommentServiceImpl implements CommentService {
         if (optionalProduct.isEmpty())
             throw new NoSuchElementException();
 
+        Product product = optionalProduct.get();
+
         Comment comment = Comment.builder()
                 .user(optionalUser.get())
-                .product(optionalProduct.get())
+                .product(product)
                 .content(commentPostReq.getContent())
                 .isSecret(commentPostReq.getIsSecret())
                 .build();
 
         commentRepository.save(comment);
+
+        alarmService.post(product, product.getUser(), AlarmType.COMMENT);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
