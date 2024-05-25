@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class RequestGetRes {
+    Integer id;
     String userName;
     String userImagePath;
     LocalDateTime createdAt;
