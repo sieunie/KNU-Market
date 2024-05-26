@@ -22,7 +22,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     public List<CommentGetRes> findCommentsByProductId(Integer productId) {
         return jpaQueryFactory
                 .select(Projections.constructor(CommentGetRes.class,
-                        comment.user.name, comment.user.imagePath, comment.content, comment.createdAt, comment.isSecret))
+                        comment.id, comment.user.name, comment.user.imagePath, comment.content, comment.createdAt, comment.isSecret))
                 .from(comment)
                 .where(comment.product.id.eq(productId))
                 .orderBy(comment.createdAt.asc())
