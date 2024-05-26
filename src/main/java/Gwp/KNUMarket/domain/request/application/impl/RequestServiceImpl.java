@@ -1,6 +1,7 @@
 package Gwp.KNUMarket.domain.request.application.impl;
 
 import Gwp.KNUMarket.domain.alarm.application.AlarmService;
+import Gwp.KNUMarket.domain.evaluation.application.EvaluationService;
 import Gwp.KNUMarket.domain.request.application.RequestService;
 import Gwp.KNUMarket.domain.request.data.dto.res.RequestGetRes;
 import Gwp.KNUMarket.global.data.entity.Product;
@@ -26,6 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RequestServiceImpl implements RequestService {
     private final AlarmService alarmService;
+    private final EvaluationService evaluationService;
 
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
@@ -94,6 +96,7 @@ public class RequestServiceImpl implements RequestService {
         productRepository.save(request.getProduct());
 
         alarmService.post(request.getProduct(), request.getUser(), AlarmType.ACCEPT);
+        evaluationService.post(request.getUser(), request.getProduct());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
