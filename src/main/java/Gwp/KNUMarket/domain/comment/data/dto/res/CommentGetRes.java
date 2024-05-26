@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class CommentGetRes {
+    private Integer id;
     private String userName;
     private String userImagePath;
     private String content;
