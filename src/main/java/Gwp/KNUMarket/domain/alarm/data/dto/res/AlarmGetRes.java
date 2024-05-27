@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class AlarmGetRes {
     private Integer id;
     private Integer productId;
+    private String senderName;
     private Integer type;
     private LocalDateTime createdAt;
 }

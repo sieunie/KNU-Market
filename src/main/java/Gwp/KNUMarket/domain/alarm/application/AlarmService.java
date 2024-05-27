@@ -13,7 +13,7 @@ import java.util.List;
 
 
 public interface AlarmService {
-    void post(Product product, User user, AlarmType type);
+    void post(Product product, User user, User sender, AlarmType type);
     ResponseEntity<List<AlarmGetRes>> get(Authentication authentication);
     ResponseEntity<HttpStatus> delete(Integer id, Authentication authentication) throws NoPermissionException;
 }
