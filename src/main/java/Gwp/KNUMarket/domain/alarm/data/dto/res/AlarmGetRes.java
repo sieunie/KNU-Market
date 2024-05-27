@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class AlarmGetRes {
+    private Integer id;
     private Integer productId;
     private Integer type;
     private LocalDateTime createdAt;

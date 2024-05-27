@@ -48,6 +48,7 @@ public class AlarmServiceImpl implements AlarmService {
 
         for (Alarm alarm : alarmRepository.findByUser(optionalUser.get())) {
             alarmGetResList.add(new AlarmGetRes(
+                    alarm.getId(),
                     alarm.getProduct().getId(),
                     alarm.getType().ordinal(),
                     alarm.getCreatedAt()
