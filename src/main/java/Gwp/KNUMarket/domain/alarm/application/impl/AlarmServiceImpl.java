@@ -27,10 +27,11 @@ public class AlarmServiceImpl implements AlarmService {
     private final UserRepository userRepository;
 
     @Override
-    public void post(Product product, User user, AlarmType type) {
+    public void post(Product product, User user, User sender, AlarmType type) {
         Alarm alarm = Alarm.builder()
                 .product(product)
                 .user(user)
+                .sender(sender)
                 .type(type)
                 .build();
 
@@ -48,7 +49,9 @@ public class AlarmServiceImpl implements AlarmService {
 
         for (Alarm alarm : alarmRepository.findByUser(optionalUser.get())) {
             alarmGetResList.add(new AlarmGetRes(
+                    alarm.getId(),
                     alarm.getProduct().getId(),
+                    alarm.getSender().getName(),
                     alarm.getType().ordinal(),
                     alarm.getCreatedAt()
             ));

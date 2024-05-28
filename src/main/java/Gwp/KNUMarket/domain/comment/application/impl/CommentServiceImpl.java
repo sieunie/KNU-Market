@@ -54,7 +54,7 @@ public class CommentServiceImpl implements CommentService {
 
         commentRepository.save(comment);
 
-        alarmService.post(product, product.getUser(), AlarmType.COMMENT);
+        alarmService.post(product, product.getUser(), optionalUser.get(), AlarmType.COMMENT);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

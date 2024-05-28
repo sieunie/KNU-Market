@@ -31,6 +31,9 @@ public class Alarm {
     @ManyToOne
     private Product product;
 
+    @ManyToOne
+    private User sender;
+
     @Enumerated(EnumType.STRING)
     private AlarmType type;
 

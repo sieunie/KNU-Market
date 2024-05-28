@@ -25,7 +25,7 @@ public class AlarmController {
     private final AlarmService alarmService;
 
     @GetMapping
-    @Operation(summary = "내 알림 조회 API")
+    @Operation(summary = "내 알림 조회 API", description = "0: 댓글 알림, 1: 구매 요청 알림, 2: 구매 수락 알림")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공", content = @Content())
     })

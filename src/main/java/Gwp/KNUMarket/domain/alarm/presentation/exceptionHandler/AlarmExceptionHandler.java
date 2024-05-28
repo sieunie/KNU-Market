@@ -12,10 +12,10 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice(basePackageClasses = AlarmController.class)
 public class AlarmExceptionHandler {
 
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<String> AlarmNullPointerExceptionHandler() {
-        return new ResponseEntity<>("존재하지 않는 사용자입니다.", HttpStatus.UNAUTHORIZED);
-    }
+//    @ExceptionHandler(NullPointerException.class)
+//    public ResponseEntity<String> AlarmNullPointerExceptionHandler() {
+//        return new ResponseEntity<>("존재하지 않는 사용자입니다.", HttpStatus.UNAUTHORIZED);
+//    }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> AlarmNoSuchElementExceptionHandler() {

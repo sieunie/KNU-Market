@@ -57,7 +57,7 @@ public class RequestServiceImpl implements RequestService {
 
         requestRepository.save(request);
 
-        alarmService.post(product, product.getUser(), AlarmType.REQUEST);
+        alarmService.post(product, product.getUser(), optionalUser.get(), AlarmType.REQUEST);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -95,7 +95,7 @@ public class RequestServiceImpl implements RequestService {
         request.getProduct().setSold(Boolean.TRUE);
         productRepository.save(request.getProduct());
 
-        alarmService.post(request.getProduct(), request.getUser(), AlarmType.ACCEPT);
+        alarmService.post(request.getProduct(), request.getUser(), optionalUser.get(), AlarmType.ACCEPT);
         evaluationService.post(request.getUser(), request.getProduct());
 
         return new ResponseEntity<>(HttpStatus.OK);
