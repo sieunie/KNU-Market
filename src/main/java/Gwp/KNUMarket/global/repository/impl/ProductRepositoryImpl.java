@@ -24,6 +24,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(Projections.constructor(ProductGetListRes.class,
                         product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt, product.sold))
                 .from(product)
+                .where(product.sold.isFalse())
                 .orderBy(product.createdAt.desc())
                 .offset(page * 8)
                 .limit(8)
@@ -36,6 +37,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(Projections.constructor(ProductGetListRes.class,
                         product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt, product.sold))
                 .from(product)
+                .where(product.sold.isFalse())
                 .where(product.title.contains(keyword)
                         .or(product.description.contains(keyword)))
                 .orderBy(product.createdAt.desc())
@@ -60,7 +62,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
                 .select(Projections.constructor(ProductGetListRes.class,
                         product.id, product.title, product.price, product.user.name, product.imagePath, product.createdAt, product.sold))
                 .from(product)
-                .where(product.user.eq(user))
+                .where(product.sold.isFalse().and(product.user.eq(user)))
                 .orderBy(product.createdAt.desc())
                 .offset(page * 8)
                 .limit(8)
