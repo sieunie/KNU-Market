@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.naming.NoPermissionException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.NoSuchElementException;
 
 @RestControllerAdvice(basePackageClasses = EvaluationController.class)
@@ -30,7 +31,12 @@ public class EvaluationExceptionHandler {
 
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public ResponseEntity<String> EvaluationIndexOutOfBoundsExceptionHandler() {
-        return new ResponseEntity<>("평가 점수 범위를 초과했습니다.", HttpStatus.CONFLICT);
+        return new ResponseEntity<>("평가 점수 범위를 초과했습니다.", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<String> EvaluationSQLIntegrityConstraintViolationExceptionHandler() {
+        return new ResponseEntity<>("중복된 요청입니다.", HttpStatus.CONFLICT);
     }
 }
 
