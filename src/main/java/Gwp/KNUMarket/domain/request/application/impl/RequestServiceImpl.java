@@ -85,7 +85,7 @@ public class RequestServiceImpl implements RequestService {
 
         Request request = optionalRequest.get();
 
-        if (request.getUser() != optionalUser.get())
+        if (request.getProduct().getUser() != optionalUser.get())
             throw new NoPermissionException();
 
         request.setAccepted(Boolean.TRUE);
