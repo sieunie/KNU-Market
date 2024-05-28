@@ -9,6 +9,5 @@ import org.springframework.security.core.Authentication;
 import javax.naming.NoPermissionException;
 
 public interface EvaluationService {
-    void post(User user, Product product);
-    ResponseEntity<HttpStatus> patch(Integer id, Integer evaluationScore, Authentication authentication) throws NoPermissionException;
+    ResponseEntity<HttpStatus> post(Integer alarmId, Integer evaluationScore, Authentication authentication) throws NoPermissionException;
 }

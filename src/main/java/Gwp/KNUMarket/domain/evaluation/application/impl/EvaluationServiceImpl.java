@@ -1,9 +1,11 @@
 package Gwp.KNUMarket.domain.evaluation.application.impl;
 
 import Gwp.KNUMarket.domain.evaluation.application.EvaluationService;
+import Gwp.KNUMarket.global.data.entity.Alarm;
 import Gwp.KNUMarket.global.data.entity.Evaluation;
 import Gwp.KNUMarket.global.data.entity.Product;
 import Gwp.KNUMarket.global.data.entity.User;
+import Gwp.KNUMarket.global.repository.AlarmRepository;
 import Gwp.KNUMarket.global.repository.EvaluationRepository;
 import Gwp.KNUMarket.global.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,53 +18,48 @@ import javax.naming.NoPermissionException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static Gwp.KNUMarket.global.data.entity.QEvaluation.evaluation;
+
 @Service
 @RequiredArgsConstructor
 public class EvaluationServiceImpl implements EvaluationService {
     private final EvaluationRepository evaluationRepository;
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
 
     @Override
-    public void post(User user, Product product) {
-        Evaluation evaluation = Evaluation.builder()
-                .user(user)
-                .product(product)
-                .build();
-
-        evaluationRepository.save(evaluation);
-    }
-
-    @Override
-    public ResponseEntity<HttpStatus> patch(Integer id, Integer evaluationScore, Authentication authentication) throws NoPermissionException{
+    public ResponseEntity<HttpStatus> post(Integer alarmId, Integer evaluationScore, Authentication authentication) throws NoPermissionException {
         Optional<User> optionalUser = userRepository.findById(Integer.parseInt(authentication.getName()));
 
         if (optionalUser.isEmpty())
             throw new NullPointerException();
 
-        Optional<Evaluation> optionalEvaluation = evaluationRepository.findById(id);
+        Optional<Alarm> optionalAlarm = alarmRepository.findById(alarmId);
 
-        if (optionalEvaluation.isEmpty())
+        if (optionalAlarm.isEmpty())
             throw new NoSuchElementException();
 
-        Evaluation evaluation = optionalEvaluation.get();
+        Alarm alarm = optionalAlarm.get();
 
-        if (evaluation.getUser() != optionalUser.get())
+        if (alarm.getUser() != optionalUser.get())
             throw new NoPermissionException();
 
         if ((evaluationScore < -2) || (evaluationScore > 2))
             throw new IndexOutOfBoundsException();
 
-        evaluation.setEvaluate(evaluationScore);
+        Evaluation evaluation = Evaluation.builder()
+                .user(optionalUser.get())
+                .product(alarm.getProduct())
+                .evaluate(evaluationScore)
+                .build();
         evaluationRepository.save(evaluation);
 
-        setOwnerScore(evaluation, evaluationScore);
+        setOwnerScore(alarm.getSender(), evaluationScore);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private void setOwnerScore(Evaluation evaluation, Integer evaluationScore) {
-        User owner = evaluation.getProduct().getUser();
-
+    private void setOwnerScore(User owner, Integer evaluationScore) {
         owner.setStarScore(Math.max(owner.getStarScore() + 1000 * evaluationScore, 0));
         userRepository.save(owner);
     }

@@ -27,7 +27,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RequestServiceImpl implements RequestService {
     private final AlarmService alarmService;
-    private final EvaluationService evaluationService;
 
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
@@ -96,7 +95,6 @@ public class RequestServiceImpl implements RequestService {
         productRepository.save(request.getProduct());
 
         alarmService.post(request.getProduct(), request.getUser(), optionalUser.get(), AlarmType.ACCEPT);
-        evaluationService.post(request.getUser(), request.getProduct());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

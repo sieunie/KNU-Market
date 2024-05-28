@@ -22,12 +22,12 @@ import javax.naming.NoPermissionException;
 public class EvaluationController {
     private final EvaluationService evaluationService;
 
-    @PatchMapping("/{id}")
+    @PostMapping
     @Operation(summary = "거래 평가 API")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공", content = @Content())
     })
-    public ResponseEntity<HttpStatus> patch(@PathVariable("id") Integer id, @RequestParam @Parameter(description = "점수는 -2 이상 2 이하 정수로 평가") Integer evaluationScore, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
-        return evaluationService.patch(id, evaluationScore, authentication);
+    public ResponseEntity<HttpStatus> post(@RequestParam Integer alarmId, @RequestParam @Parameter(description = "점수는 -2 이상 2 이하 정수로 평가") Integer evaluationScore, @Parameter(hidden = true) Authentication authentication) throws NoPermissionException {
+        return evaluationService.post(alarmId, evaluationScore, authentication);
     }
 }
