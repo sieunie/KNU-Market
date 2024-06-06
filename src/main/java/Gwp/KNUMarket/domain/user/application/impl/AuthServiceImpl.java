@@ -78,12 +78,15 @@ public class AuthServiceImpl implements AuthService {
                 .name(randomName())
                 .starScore(10000)
                 .build();
-
-        String accessToken = jwtTokenProvider.createAccessToken(user);
-        String refreshToken = jwtTokenProvider.createRefreshToken(user);
-
-        user.setRefreshToken(refreshToken);
         userRepository.save(user);
+
+        Optional<User> optionalUser = userRepository.findByKakaoId(kakaoId);
+
+        String accessToken = jwtTokenProvider.createAccessToken(optionalUser.get());
+        String refreshToken = jwtTokenProvider.createRefreshToken(optionalUser.get());
+
+        optionalUser.get().setRefreshToken(refreshToken);
+        userRepository.save(optionalUser.get());
 
         return new ResponseEntity<>(new AuthLoginRes(refreshToken, accessToken), HttpStatus.CREATED);
     }
